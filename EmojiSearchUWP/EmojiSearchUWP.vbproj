@@ -103,7 +103,6 @@
     <Compile Include="App.xaml.vb">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CopyDatabase.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -113,6 +112,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="Assets\Emoji.db" />
     <None Include="EmojiSearchUWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Import Include="EmojiSearchApp" />
+    <Import Include="EmojiSearchAppUWP" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
     <Import Include="System.Collections" />
@@ -194,10 +195,13 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.VisualBasic.targets" />
   <PropertyGroup>
-    <PreBuildEvent>pushd "$(SolutionDir)\EmojiDb\bin\$(ConfigurationName)" &amp;&amp; ^
+    <PreBuildEvent>cd "$(SolutionDir)\EmojiDb\bin\$(ConfigurationName)" &amp;&amp; ^
 EmojiDb.exe &amp;&amp; ^
-copy Emoji.db "$(TargetDir)" &amp;&amp; ^
-popd</PreBuildEvent>
+copy Emoji.db "$(ProjectDir)\Assets\"</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

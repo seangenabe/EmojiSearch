@@ -5,10 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" 
-    Loaded="Page_Loaded"
-    Height="72.992" Width="187.754">
+    Loaded="Page_Loaded">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,-254,-151">
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
@@ -33,9 +32,13 @@
       </Grid>
     </Grid>
     <Grid Grid.Row="1">
-      <ItemsControl>
-        
-      </ItemsControl>
+      <ListView ItemsSource="{Binding Emojis}">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Value}" FontFamily="Segoe UI Emoji" FontSize="18"/>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
     </Grid>
   </Grid>
 </Page>

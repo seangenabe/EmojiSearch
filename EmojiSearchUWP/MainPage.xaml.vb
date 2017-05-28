@@ -1,4 +1,5 @@
-﻿Imports LiteDB
+﻿Imports EmojiSearchAppUWP
+Imports LiteDB
 
 Public NotInheritable Class MainPage
   Inherits Page

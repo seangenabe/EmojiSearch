@@ -1,9 +1,14 @@
 ﻿Imports LiteDB
 
-Partial Public Class EmojiSearchModel
+Public Class EmojiSearchModel
   Implements INotifyPropertyChanged
 
   Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+
+  Public Sub New()
+    EmojisList = New ObservableCollection(Of Emoji)()
+    Emojis = New ReadOnlyObservableCollection(Of Emoji)(EmojisList)
+  End Sub
 
   Public Sub Load(db As LiteDatabase)
     Dim emojisCollection = db.GetCollection("emojis")
