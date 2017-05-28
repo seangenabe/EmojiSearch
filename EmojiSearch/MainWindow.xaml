@@ -3,10 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EmojiSearch"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" 
+        Height="233.333" 
+        Width="469.091">
+  <StackPanel>
+    <Border Padding="2" BorderThickness="1" BorderBrush="Gray">
+      <DockPanel Margin="0">
+        <TextBlock DockPanel.Dock="Right" Text="&#xE11A;" FontFamily="Segoe UI Symbol" Foreground="Gray" FontSize="16"/>
+        <TextBox Text="{Binding Query}" BorderThickness="0" Background="Transparent" FontSize="16"/>
+      </DockPanel>
+    </Border>
+    <ListView ItemsSource="{Binding EmojisView}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Value}" FontFamily="Segoe UI Emoji" FontSize="16"/>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </StackPanel>
 </Window>
