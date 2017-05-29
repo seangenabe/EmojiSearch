@@ -14,7 +14,8 @@ Public Class EmojiSearchModel
     Dim emojisCollection = db.GetCollection("emojis")
 
     For Each emoji In emojisCollection.FindAll()
-      Dim emoji2 As New Emoji((From k As BsonValue In DirectCast(emoji!keywords, BsonArray)
+      Dim emoji2 As New Emoji(emoji!name,
+                              (From k As BsonValue In DirectCast(emoji!keywords, BsonArray)
                                Select k.AsString),
                               emoji!char,
                               emoji!fitzpatrick_scale,

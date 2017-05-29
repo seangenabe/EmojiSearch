@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:app="using:EmojiSearchAppUWP"
     mc:Ignorable="d" 
+    x:Name="root"  
     Loaded="Page_Loaded">
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -23,22 +25,30 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
-          <TextBox Text="{Binding Query}" Height="31" Grid.Column="0" VerticalAlignment="Center" BorderThickness="0"/>
-          <TextBlock Text="&#xE11A;" FontFamily="Segoe UI Symbol" Grid.Column="1" VerticalAlignment="Center"/>
+          <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="32" Height="50" Grid.Column="0" VerticalAlignment="Center" BorderThickness="0" PlaceholderText="Search for emoji"/>
         </Grid>
       </Border>
       <Grid Grid.Column="1">
-        <Button >ssdf</Button>
+        <Button FontFamily="Segoe UI Emoji" FontSize="32">🏻</Button>
       </Grid>
     </Grid>
     <Grid Grid.Row="1">
-      <ListView ItemsSource="{Binding Emojis}">
-        <ListView.ItemTemplate>
-          <DataTemplate>
-            <TextBlock Text="{Binding Value}" FontFamily="Segoe UI Emoji" FontSize="18"/>
-          </DataTemplate>
-        </ListView.ItemTemplate>
-      </ListView>
+      <ScrollViewer IsDeferredScrollingEnabled="True" HorizontalContentAlignment="Center">
+        <ItemsControl ItemsSource="{Binding EmojisView, Mode=OneWay}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate x:DataType="app:Emoji">
+              <Button Margin="5" Width="80" Height="58" Command="{Binding ItemSelectedCommand, ElementName=root}" CommandParameter="{Binding}" AllowFocusOnInteraction="False">
+                <TextBlock Text="{Binding Value}" FontFamily="Segoe UI Emoji" FontSize="30"/>
+              </Button>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <ItemsWrapGrid Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </ScrollViewer>
     </Grid>
   </Grid>
 </Page>

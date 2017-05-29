@@ -14,14 +14,14 @@ Module Module1
 
       Dim emojisText = File.ReadAllText("emojis.json")
       Dim emojis As JObject = JObject.Parse(emojisText)
-      For Each e As JToken In emojis.PropertyValues
-        Dim emoji2 = Convert(e)
+      For Each pair As KeyValuePair(Of String, JToken) In emojis
+        Dim emoji2 = Convert(pair.Key, pair.Value)
         emojisCollection.Insert(emoji2)
       Next
     End Using
   End Sub
 
-  Function Convert(token As JToken) As BsonDocument
+  Function Convert(name As String, token As JToken) As BsonDocument
     Dim obj = DirectCast(token, JObject)
 
     ' Extract JSON object contents
@@ -35,6 +35,7 @@ Module Module1
     ' Build BsonDocument
     Dim document As New BsonDocument()
     Dim keywordsArray As New BsonArray(From keyword In keywords Select New BsonValue(keyword))
+    document.Set("name", name)
     document.Set("keywords", keywordsArray)
     document.Set("char", New BsonValue(ch))
     document.Set("fitzpatrick_scale", New BsonValue(fitzpatrick_scale))
