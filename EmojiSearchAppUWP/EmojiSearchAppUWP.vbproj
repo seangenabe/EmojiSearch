@@ -121,7 +121,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="EmojiSearchModel.vb" />
+    <Compile Include="EmojiSearchModelUWP.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <EmbeddedResource Include="My Project\EmojiSearchApp.rd.xml" />
   </ItemGroup>

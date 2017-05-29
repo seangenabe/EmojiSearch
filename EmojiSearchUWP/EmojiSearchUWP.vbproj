@@ -103,6 +103,7 @@
     <Compile Include="App.xaml.vb">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ItemSelectedCommand.vb" />
     <Compile Include="MainPage.xaml.vb">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -112,7 +113,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <Content Include="Assets\Emoji.db" />
     <None Include="EmojiSearchUWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -195,9 +195,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.VisualBasic.targets" />
   <PropertyGroup>
-    <PreBuildEvent>cd "$(SolutionDir)\EmojiDb\bin\$(ConfigurationName)" &amp;&amp; ^
-EmojiDb.exe &amp;&amp; ^
-copy Emoji.db "$(ProjectDir)\Assets\"</PreBuildEvent>
+    <PreBuildEvent>pushd $(SolutionDir)\EmojiDb\bin\$(ConfigurationName) &amp;&amp; EmojiDb.exe</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
@@ -210,4 +208,7 @@ copy Emoji.db "$(ProjectDir)\Assets\"</PreBuildEvent>
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Content Include="$(SolutionDir)\EmojiDb\bin\$(ConfigurationName)\Emoji.db" />
+  </ItemGroup>
 </Project>

@@ -175,7 +175,6 @@
   <PropertyGroup>
     <PreBuildEvent>pushd "$(SolutionDir)\EmojiDb\bin\$(ConfigurationName)" &amp;&amp; ^
 EmojiDb.exe &amp;&amp; ^
-copy Emoji.db "$(TargetDir)" &amp;&amp; ^
-popd</PreBuildEvent>
+copy Emoji.db "$(TargetDir)"</PreBuildEvent>
   </PropertyGroup>
 </Project>
