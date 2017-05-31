@@ -108,13 +108,11 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="Win32.vb" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="App.xaml.vb.bak" />
     <None Include="EmojiSearchUWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

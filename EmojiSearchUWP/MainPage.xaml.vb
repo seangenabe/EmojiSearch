@@ -1,8 +1,5 @@
-﻿Imports System.Runtime.InteropServices
-Imports System.Text
-Imports LiteDB
+﻿Imports LiteDB
 Imports Windows.ApplicationModel.DataTransfer
-Imports Windows.UI.Popups
 
 Public NotInheritable Class MainPage
   Inherits Page
