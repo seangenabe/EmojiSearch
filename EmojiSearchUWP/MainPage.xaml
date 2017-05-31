@@ -25,7 +25,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
-          <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="32" Height="50" Grid.Column="0" VerticalAlignment="Center" BorderThickness="0" PlaceholderText="Search for emoji"/>
+          <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="32" Height="50" Grid.Column="0" VerticalAlignment="Center" BorderThickness="0" PlaceholderText="Search for emoji" x:Name="QueryTextBox"/>
         </Grid>
       </Border>
       <Grid Grid.Column="1">
@@ -37,7 +37,13 @@
         <ItemsControl ItemsSource="{Binding EmojisView, Mode=OneWay}">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="app:Emoji">
-              <Button Margin="5" Width="80" Height="58" Command="{Binding ItemSelectedCommand, ElementName=root}" CommandParameter="{Binding}" AllowFocusOnInteraction="False">
+              <Button Margin="5" 
+                      Width="80" 
+                      Height="58" 
+                      Command="{Binding ItemSelectedCommand, ElementName=root}" 
+                      CommandParameter="{Binding}" 
+                      AllowFocusOnInteraction="False" 
+                      ToolTipService.ToolTip="{Binding Name}">
                 <TextBlock Text="{Binding Value}" FontFamily="Segoe UI Emoji" FontSize="30"/>
               </Button>
             </DataTemplate>

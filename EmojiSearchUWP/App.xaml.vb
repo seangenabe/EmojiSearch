@@ -1,4 +1,8 @@
-﻿Imports Windows.UI.Core
+﻿Option Strict Off
+
+Imports System.Runtime.InteropServices
+Imports Windows.UI.Core
+
 ''' <summary>
 ''' Provides application-specific behavior to supplement the default Application class.
 ''' </summary>
@@ -40,9 +44,9 @@ NotInheritable Class App
 
       ' Ensure the current window is active
       Window.Current.Activate()
+      InitializeMouseInteraction()
+      SetAlwaysOnTop()
     End If
-
-    AddHandler Window.Current.Activated, AddressOf Window_Activated
   End Sub
 
   ''' <summary>
@@ -69,10 +73,26 @@ NotInheritable Class App
 
 #Region "Disable click activation"
 
-  Private Sub Window_Activated(sender As Object, e As WindowActivatedEventArgs)
-
+#If PLATFORM = "x64" OrElse PLATFORM = "x86" Then
+  Private Sub InitializeMouseInteraction()
+    Dim handle = GetCurrentWindowHandle()
+    Dim currentStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE)
+    SetWindowLongPtrW(handle, GWL_EXSTYLE, currentStyle Or WS_EX_NOACTIVATE)
   End Sub
+#Else
+  Private Sub InitializeMouseInteraction()
+    ' Empty
+  End Sub
+#End If
 
 #End Region
+
+  Public Sub SetAlwaysOnTop()
+    SetWindowPos(GetCurrentWindowHandle(),
+                       HWND_TOPMOST,
+                       0, 0, 0, 0,
+                       SWP_NOMOVE Or SWP_NOSIZE
+                       )
+  End Sub
 
 End Class

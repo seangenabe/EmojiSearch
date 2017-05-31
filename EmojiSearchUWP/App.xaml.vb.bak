@@ -1,0 +1,16 @@
+﻿
+
+  Private Const GWL_EXSTYLE As Integer = -20
+  Private Const WS_EX_NOACTIVATE As Long = &H0800_0000L
+
+  Private Sub Window_Activated(sender As Object, e As WindowActivatedEventArgs)
+    Dim handle = GetCurrentWindowHandle()
+    Dim currentStyle = GetWindowLongPtrW(handle, GWL_EXSTYLE)
+    SetWindowLongPtrW(handle, GWL_EXSTYLE, currentStyle Or WS_EX_NOACTIVATE)
+  End Sub
+
+  Public Declare Function SetWindowLongPtrW Lib "user32.dll" (hWnd As IntPtr,
+                                                             nIndex As Integer,
+                                                             dwNewLong As Long) As Long
+  Public Declare Function GetWindowLongPtrW Lib "user32.dll" (hWnd As IntPtr,
+                                                             nIndex As Integer) As Long
