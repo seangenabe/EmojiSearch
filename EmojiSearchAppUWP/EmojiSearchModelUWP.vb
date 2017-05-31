@@ -20,9 +20,8 @@ Public Class EmojiSearchModelUWP
         EmojisView = Emojis.AsEnumerable()
       Else
         EmojisView = From emoji In Emojis
-                     From keyword In emoji.Keywords
-                     Where emoji.Name.StartsWith(q) OrElse
-                       keyword.StartsWith(q)
+                     Where emoji.Name.Contains(q) OrElse
+                       emoji.Keywords.Any(Function(keyword) keyword.Contains(q))
                      Select emoji
       End If
       OnPropertyChanged(New PropertyChangedEventArgs(NameOf(EmojisView)))
