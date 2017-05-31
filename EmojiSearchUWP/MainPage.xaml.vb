@@ -6,6 +6,7 @@ Public NotInheritable Class MainPage
 
   Public Sub New()
     InitializeComponent()
+    EmojiItemsControl.XYFocusKeyboardNavigation = XYFocusKeyboardNavigationMode.Enabled
     ItemSelectedCommand = New ItemSelectedCommand()
     AddHandler ItemSelectedCommand.Executed, AddressOf OnItemSelected
   End Sub

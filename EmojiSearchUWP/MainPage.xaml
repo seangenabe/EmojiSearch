@@ -25,24 +25,36 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
           </Grid.ColumnDefinitions>
-          <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="32" Height="50" Grid.Column="0" VerticalAlignment="Center" BorderThickness="0" PlaceholderText="Search for emoji" x:Name="QueryTextBox"/>
+          <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                   FontSize="32" 
+                   Height="50" 
+                   Grid.Column="0" 
+                   VerticalAlignment="Center" 
+                   BorderThickness="0" 
+                   PlaceholderText="Search for emoji" 
+                   x:Name="QueryTextBox" 
+                   TabIndex="-1"/>
         </Grid>
       </Border>
       <Grid Grid.Column="1">
-        <Button FontFamily="Segoe UI Emoji" FontSize="32">🏻</Button>
+        <Button FontFamily="Segoe UI Emoji" 
+                FontSize="32" 
+                TabIndex="3">🏻</Button>
       </Grid>
     </Grid>
     <Grid Grid.Row="1">
       <ScrollViewer IsDeferredScrollingEnabled="True" HorizontalContentAlignment="Center">
-        <ItemsControl ItemsSource="{Binding EmojisView, Mode=OneWay}">
+        <ItemsControl ItemsSource="{Binding EmojisView, Mode=OneWay}"
+                      x:Name="EmojiItemsControl"
+                      TabNavigation="Once"
+                      IsTabStop="False">
           <ItemsControl.ItemTemplate>
             <DataTemplate x:DataType="app:Emoji">
-              <Button Margin="5" 
+              <Button Margin="5"
                       Width="80" 
-                      Height="58" 
+                      Height="58"
                       Command="{Binding ItemSelectedCommand, ElementName=root}" 
-                      CommandParameter="{Binding}" 
-                      AllowFocusOnInteraction="False" 
+                      CommandParameter="{Binding}"
                       ToolTipService.ToolTip="{Binding Name}">
                 <TextBlock Text="{Binding Value}" FontFamily="Segoe UI Emoji" FontSize="30"/>
               </Button>
@@ -50,7 +62,8 @@
           </ItemsControl.ItemTemplate>
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-              <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Center"/>
+              <ItemsWrapGrid Orientation="Horizontal" 
+                             HorizontalAlignment="Center"/>
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
         </ItemsControl>
