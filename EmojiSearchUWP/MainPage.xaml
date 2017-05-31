@@ -50,7 +50,7 @@
           </ItemsControl.ItemTemplate>
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-              <ItemsWrapGrid Orientation="Horizontal"/>
+              <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Center"/>
             </ItemsPanelTemplate>
           </ItemsControl.ItemsPanel>
         </ItemsControl>
