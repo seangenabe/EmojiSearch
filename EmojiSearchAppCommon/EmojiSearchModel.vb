@@ -12,7 +12,7 @@ Public Class EmojiSearchModel
     EmojisList = New ObservableCollection(Of Emoji)()
     Emojis = New ReadOnlyObservableCollection(Of Emoji)(EmojisList)
 
-    Dim modifiers As New List(Of FitzpatrickEmojiModifier)
+    Dim modifiers As New List(Of FitzpatrickEmojiModifier)()
     modifiers.Add(FitzpatrickEmojiModifier.Unmodified)
     modifiers.AddRange(From ch In {"🏻", "🏼", "🏽", "🏾", "🏿"}
                        Select New FitzpatrickEmojiModifier(ch))

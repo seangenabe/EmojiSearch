@@ -1,10 +1,13 @@
 ﻿Option Strict Off
+Imports Windows.Storage
 
 ''' <summary>
 ''' Provides application-specific behavior to supplement the default Application class.
 ''' </summary>
 NotInheritable Class App
   Inherits Application
+
+  Public Property Model As New EmojiSearchModelUWP()
 
   ''' <summary>
   ''' Invoked when the application is launched normally by the end user.  Other entry points
@@ -24,8 +27,17 @@ NotInheritable Class App
 
       AddHandler rootFrame.NavigationFailed, AddressOf OnNavigationFailed
 
-      If e.PreviousExecutionState = ApplicationExecutionState.Terminated Then
-        ' TODO: Load state from previously suspended application
+      Dim previousExecutionState = e.PreviousExecutionState
+      If previousExecutionState = ApplicationExecutionState.Terminated OrElse
+          previousExecutionState = ApplicationExecutionState.NotRunning OrElse
+          previousExecutionState = ApplicationExecutionState.ClosedByUser Then
+
+        ' Load state from previously suspended application
+        Dim fitzpatrickIndex = ApplicationData.Current.RoamingSettings.Values!fitzpatrickIndex
+        Dim fitzpatrickIndexInt As Integer =
+          If(fitzpatrickIndex Is Nothing, 0, CInt(fitzpatrickIndex))
+        Model.SelectedFitzpatrickEmojiModifier =
+          Model.FitzpatrickEmojiModifiers(fitzpatrickIndexInt)
       End If
       ' Place the frame in the current Window
       Window.Current.Content = rootFrame
@@ -62,7 +74,6 @@ NotInheritable Class App
   ''' <param name="e">Details about the suspend request.</param>
   Private Sub OnSuspending(sender As Object, e As SuspendingEventArgs) Handles Me.Suspending
     Dim deferral As SuspendingDeferral = e.SuspendingOperation.GetDeferral()
-    ' TODO: Save application state and stop any background activity
     deferral.Complete()
   End Sub
 

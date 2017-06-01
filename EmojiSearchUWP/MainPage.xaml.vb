@@ -1,10 +1,9 @@
 ﻿Imports LiteDB
 Imports Windows.ApplicationModel.DataTransfer
+Imports Windows.Storage
 
 Public NotInheritable Class MainPage
   Inherits Page
-
-  Private Property App As EmojiSearchModelUWP
 
   Public Sub New()
     InitializeComponent()
@@ -23,19 +22,18 @@ Public NotInheritable Class MainPage
   End Sub
 
   Private Async Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
-    Dim app As New EmojiSearchModelUWP()
+    Dim model = Me.Model
     Using stream = Await Package.Current.InstalledLocation.OpenStreamForReadAsync("Emoji.db")
       Using db As New LiteDatabase(stream)
-        app.Load(db)
+        model.Load(db)
       End Using
     End Using
 
-    DataContext = app
-    Me.App = app
-
+    DataContext = model
 
     Dim fitzpatrickEmojiModifiersViewSource =
       DirectCast(Resources!FitzpatrickEmojiModifiersViewSource, CollectionViewSource)
+    fitzpatrickEmojiModifiersViewSource.View.MoveCurrentTo(model.SelectedFitzpatrickEmojiModifier)
     AddHandler fitzpatrickEmojiModifiersViewSource.View.CurrentChanged,
       AddressOf FitzpatrickEmojiModifiersView_CurrentChanged
   End Sub
@@ -60,8 +58,17 @@ Public NotInheritable Class MainPage
 
   Private Sub FitzpatrickEmojiModifiersView_CurrentChanged(sender As Object, e As Object)
     Dim source = Resources!FitzpatrickEmojiModifiersViewSource
-    Dim currentItem = DirectCast(source, CollectionViewSource).View.CurrentItem
-    App.SelectedFitzpatrickEmojiModifier = DirectCast(currentItem, FitzpatrickEmojiModifier)
+    Dim view = DirectCast(source, CollectionViewSource).View
+    Dim currentItem = view.CurrentItem
+    Model.SelectedFitzpatrickEmojiModifier = DirectCast(currentItem, FitzpatrickEmojiModifier)
+    ApplicationData.Current.RoamingSettings.Values!fitzpatrickIndex = view.CurrentPosition
   End Sub
+
+  Private ReadOnly Property Model As EmojiSearchModelUWP
+    Get
+      Return DirectCast(Application.Current, App).Model
+    End Get
+  End Property
+
 
 End Class
