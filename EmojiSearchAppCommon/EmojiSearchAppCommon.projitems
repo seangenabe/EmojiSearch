@@ -11,5 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Emoji.vb" />
     <Compile Include="$(MSBuildThisFileDirectory)EmojiSearchModel.vb" />
+    <Compile Include="$(MSBuildThisFileDirectory)FitzpatrickEmojiModifier.vb" />
   </ItemGroup>
 </Project>

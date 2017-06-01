@@ -4,11 +4,17 @@ Imports Windows.ApplicationModel.DataTransfer
 Public NotInheritable Class MainPage
   Inherits Page
 
+  Private Property App As EmojiSearchModelUWP
+
   Public Sub New()
     InitializeComponent()
     EmojiItemsControl.XYFocusKeyboardNavigation = XYFocusKeyboardNavigationMode.Enabled
-    ItemSelectedCommand = New ItemSelectedCommand()
+
+    ItemSelectedCommand = New EventCommand()
     AddHandler ItemSelectedCommand.Executed, AddressOf OnItemSelected
+
+    ResetCommand = New EventCommand()
+    AddHandler ResetCommand.Executed, AddressOf Reset
   End Sub
 
   Protected Overrides Sub OnNavigatedTo(e As NavigationEventArgs)
@@ -25,17 +31,37 @@ Public NotInheritable Class MainPage
     End Using
 
     DataContext = app
+    Me.App = app
+
+
+    Dim fitzpatrickEmojiModifiersViewSource =
+      DirectCast(Resources!FitzpatrickEmojiModifiersViewSource, CollectionViewSource)
+    AddHandler fitzpatrickEmojiModifiersViewSource.View.CurrentChanged,
+      AddressOf FitzpatrickEmojiModifiersView_CurrentChanged
   End Sub
 
-  Public Property ItemSelectedCommand As ItemSelectedCommand
+  Public Property ItemSelectedCommand As EventCommand
+  Public Property ResetCommand As EventCommand
+  Public Property FitzpatrickEmojiModifiersViewSource As CollectionViewSource
 
   Private Sub OnItemSelected(parameter As Object)
-    If TypeOf parameter Is Emoji Then
-      Dim emoji = DirectCast(parameter, Emoji)
+    If TypeOf parameter Is EmojiUWP Then
+      Dim emoji = DirectCast(parameter, EmojiUWP)
       Dim pkg As New DataPackage() With {.RequestedOperation = DataPackageOperation.Copy}
-      pkg.SetText(emoji.Value)
+      pkg.SetText(emoji.ModifiedValue)
       Clipboard.SetContent(pkg)
     End If
+  End Sub
+
+  Private Sub Reset()
+    QueryTextBox.Text = ""
+    QueryTextBox.Focus(FocusState.Programmatic)
+  End Sub
+
+  Private Sub FitzpatrickEmojiModifiersView_CurrentChanged(sender As Object, e As Object)
+    Dim source = Resources!FitzpatrickEmojiModifiersViewSource
+    Dim currentItem = DirectCast(source, CollectionViewSource).View.CurrentItem
+    App.SelectedFitzpatrickEmojiModifier = DirectCast(currentItem, FitzpatrickEmojiModifier)
   End Sub
 
 End Class

@@ -1,4 +1,4 @@
-﻿Public Class ItemSelectedCommand
+﻿Public Class EventCommand
   Implements ICommand
 
   Public Event CanExecuteChanged As EventHandler Implements ICommand.CanExecuteChanged

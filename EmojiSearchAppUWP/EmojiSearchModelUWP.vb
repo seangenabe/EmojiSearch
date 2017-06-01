@@ -13,6 +13,14 @@ Public Class EmojiSearchModelUWP
     _QueryDebounced = Query
   End Sub
 
+  Protected Overrides Function CreateNewEmoji(name As String,
+                                              keywords As IEnumerable(Of String),
+                                              ch As String,
+                                              fitzpatrickScale As Boolean,
+                                              category As String) As Emoji
+    Return New EmojiUWP(name, keywords, ch, fitzpatrickScale, category, Me)
+  End Function
+
   Protected Overrides Sub OnPropertyChanged(e As PropertyChangedEventArgs)
     If e.PropertyName = NameOf(Query) Then
       Dim q = Query.Trim()
@@ -55,4 +63,20 @@ Public Class EmojiSearchModelUWP
     End Set
   End Property
 
+  Private _SelectedFitzpatrickEmojiModifier As FitzpatrickEmojiModifier =
+    FitzpatrickEmojiModifier.Unmodified
+  Public Property SelectedFitzpatrickEmojiModifier As FitzpatrickEmojiModifier
+    Get
+      Return _SelectedFitzpatrickEmojiModifier
+    End Get
+    Set(value As FitzpatrickEmojiModifier)
+      If value Is Nothing Then
+        Throw New ArgumentNullException(NameOf(value))
+      End If
+      If _SelectedFitzpatrickEmojiModifier IsNot value Then
+        _SelectedFitzpatrickEmojiModifier = value
+        OnPropertyChanged(New PropertyChangedEventArgs(NameOf(SelectedFitzpatrickEmojiModifier)))
+      End If
+    End Set
+  End Property
 End Class
