@@ -17,88 +17,84 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <Grid Grid.Row="0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*"/>
-        <ColumnDefinition Width="Auto"/>
-      </Grid.ColumnDefinitions>
-      <Border BorderBrush="Gray" BorderThickness="2" Grid.Column="0">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-          </Grid.ColumnDefinitions>
-          <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                   FontSize="32" 
-                   Height="50" 
-                   Grid.Column="0" 
-                   VerticalAlignment="Center" 
-                   BorderThickness="0" 
-                   PlaceholderText="Search for emoji" 
-                   x:Name="QueryTextBox"/>
-        </Grid>
-      </Border>
-      <Grid Grid.Column="1">
-        <Button FontFamily="Segoe UI Emoji" 
-                FontSize="32" Content="{Binding Path=CurrentItem.DisplayValue, Source={StaticResource FitzpatrickEmojiModifiersViewSource}}">
-          <Button.Flyout>
-            <Flyout>
-              <ListView ItemsSource="{Binding Source={StaticResource FitzpatrickEmojiModifiersViewSource}}"
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="Auto"/>
+    </Grid.ColumnDefinitions>
+
+    <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+             FontSize="32" 
+             Height="50" 
+             VerticalAlignment="Center" 
+             BorderThickness="0" 
+             PlaceholderText="Search for emoji" 
+             x:Name="QueryTextBox"
+             Grid.Row="0"
+             Grid.Column="0"/>
+
+    <ScrollViewer IsDeferredScrollingEnabled="True" 
+                  HorizontalContentAlignment="Center"
+                  Grid.Row="1"
+                  Grid.ColumnSpan="2">
+      <ItemsControl ItemsSource="{Binding EmojisView, Mode=OneWay}"
+                    x:Name="EmojiItemsControl"
+                    TabNavigation="Once"
+                    IsTabStop="False">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="app:Emoji">
+            <Button Margin="5"
+                    Width="80" 
+                    Height="58"
+                    Command="{Binding ItemSelectedCommand, ElementName=root}" 
+                    CommandParameter="{Binding}"
+                    ToolTipService.ToolTip="{Binding Name}">
+              <TextBlock Text="{Binding ModifiedValue}" 
+                         FontFamily="Segoe UI Emoji" 
+                         FontSize="30"/>
+            </Button>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <ItemsWrapGrid Orientation="Horizontal" 
+                           HorizontalAlignment="Center"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
+    </ScrollViewer>
+
+    <Button FontFamily="Segoe UI Emoji" 
+            FontSize="32" 
+            Content="{Binding Path=CurrentItem.DisplayValue, Source={StaticResource FitzpatrickEmojiModifiersViewSource}}"
+            Grid.Row="0"
+            Grid.Column="1">
+      <Button.Flyout>
+        <Flyout>
+          <ListView ItemsSource="{Binding Source={StaticResource FitzpatrickEmojiModifiersViewSource}}"
                         IsTabStop="False">
-                <ItemsControl.ItemsPanel>
-                  <ItemsPanelTemplate>
-                    <ItemsWrapGrid MaximumRowsOrColumns="3"
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <ItemsWrapGrid MaximumRowsOrColumns="3"
                                    Orientation="Horizontal"/>
-                  </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate x:DataType="app:EmojiSearchModelUWP">
-                    <Border Margin="5"
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="app:EmojiSearchModelUWP">
+                <Border Margin="5"
                           Width="80"
                           Height="58">
-                      <TextBlock FontSize="32" 
+                  <TextBlock FontSize="32" 
                                  FontFamily="Segoe UI Emoji"
                                  Text="{Binding DisplayValue}" 
                                  HorizontalAlignment="Center" 
                                  VerticalAlignment="Center"/>
-                    </Border>
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ListView>
-            </Flyout>
-          </Button.Flyout>
-        </Button>
-      </Grid>
-    </Grid>
-    <Grid Grid.Row="1">
-      <ScrollViewer IsDeferredScrollingEnabled="True" 
-                    HorizontalContentAlignment="Center">
-        <ItemsControl ItemsSource="{Binding EmojisView, Mode=OneWay}"
-                      x:Name="EmojiItemsControl"
-                      TabNavigation="Once"
-                      IsTabStop="False">
-          <ItemsControl.ItemTemplate>
-            <DataTemplate x:DataType="app:Emoji">
-              <Button Margin="5"
-                      Width="80" 
-                      Height="58"
-                      Command="{Binding ItemSelectedCommand, ElementName=root}" 
-                      CommandParameter="{Binding}"
-                      ToolTipService.ToolTip="{Binding Name}">
-                <TextBlock Text="{Binding ModifiedValue}" 
-                           FontFamily="Segoe UI Emoji" 
-                           FontSize="30"/>
-              </Button>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <ItemsWrapGrid Orientation="Horizontal" 
-                             HorizontalAlignment="Center"/>
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-        </ItemsControl>
-      </ScrollViewer>
-    </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ListView>
+        </Flyout>
+      </Button.Flyout>
+    </Button>
+
   </Grid>
 </Page>
