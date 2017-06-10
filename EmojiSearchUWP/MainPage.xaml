@@ -10,7 +10,6 @@
   <Page.Resources>
     <CollectionViewSource x:Key="FitzpatrickEmojiModifiersViewSource"
                           Source="{Binding DataContext.FitzpatrickEmojiModifiers, ElementName=root}"/>
-    
   </Page.Resources>
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -31,7 +30,7 @@
              PlaceholderText="Search for emoji" 
              x:Name="QueryTextBox"
              Grid.Row="0"
-             Grid.Column="0"/>
+             Grid.Column="0" Style="{StaticResource TextBoxStyle1}"/>
 
     <ScrollViewer IsDeferredScrollingEnabled="True" 
                   HorizontalContentAlignment="Center"
@@ -70,7 +69,8 @@
             FontSize="32" 
             Content="{Binding Path=CurrentItem.DisplayValue, Source={StaticResource FitzpatrickEmojiModifiersViewSource}}"
             Grid.Row="0"
-            Grid.Column="1">
+            Grid.Column="1"
+            Style="{StaticResource ButtonStyle1}">
       <Button.Flyout>
         <Flyout>
           <ListView ItemsSource="{Binding Source={StaticResource FitzpatrickEmojiModifiersViewSource}}"
@@ -83,8 +83,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="app:EmojiSearchModelUWP">
-                <Border Margin="5"
-                        Width="80"
+                <Border Width="80"
                         Height="58">
                   <TextBlock FontSize="32" 
                                  FontFamily="Segoe UI Emoji"
