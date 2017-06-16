@@ -1,6 +1,7 @@
 ﻿Imports LiteDB
 Imports Windows.ApplicationModel.Core
 Imports Windows.ApplicationModel.DataTransfer
+Imports Windows.Foundation.Metadata
 Imports Windows.Storage
 Imports Windows.UI
 Imports Windows.UI.Xaml.Media
@@ -25,23 +26,31 @@ Public NotInheritable Class MainPage
   End Sub
 
   Private Async Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
+    If ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.AcrylicBrush") Then
+      ' Extend into title bar.
+      Dim coreTitleBar = CoreApplication.GetCurrentView().TitleBar
+      coreTitleBar.ExtendViewIntoTitleBar = True
+      AddHandler coreTitleBar.LayoutMetricsChanged, AddressOf UpdateTitleBar
 
-#If FLUENT Then
-    ' Add text block to act as title bar.
-    Dim height = CoreApplication.GetCurrentView().TitleBar.Height
-    Dim titleBarTextBlock As New TextBlock() With {.Height = height}
-    Grid.SetRow(titleBarTextBlock, 0)
-    layoutRoot.Children.Insert(0, titleBarTextBlock)
+      ' Customize app title bar.
+      Dim titleBar As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
+      titleBar.ButtonBackgroundColor = Colors.Transparent
+      titleBar.ButtonInactiveBackgroundColor = Colors.Transparent
+      titleBar.ButtonForegroundColor = Resources("SystemBaseHighColor")
+      titleBar.ButtonInactiveForegroundColor = Resources("SystemChromeDisabledLowColor")
+      UpdateTitleBar()
 
-    ' Set background to acrylic brush.
-    Dim brush As New AcrylicBrush()
-    brush.BackgroundSource = AcrylicBackgroundSource.HostBackdrop
-    brush.TintColor = Colors.Black
-    brush.FallbackColor = Colors.Black
-    brush.TintOpacity = 0.6
-
-    layoutRoot.Background = brush
-#End If
+      ' Set background to acrylic brush.
+      Dim brush As New AcrylicBrush()
+      brush.BackgroundSource = AcrylicBackgroundSource.HostBackdrop
+      brush.TintColor = Colors.Black
+      brush.FallbackColor = Colors.Black
+      brush.TintOpacity = 0.6
+      layoutRoot.Background = brush
+    Else
+      ' Hide substitute title bar.
+      titleBarSubstituteTextBox.Visibility = Visibility.Collapsed
+    End If
 
     Dim model = Me.Model
     Using stream = Await Package.Current.InstalledLocation.OpenStreamForReadAsync("Emoji.db")
@@ -53,10 +62,14 @@ Public NotInheritable Class MainPage
     DataContext = model
 
     Dim fitzpatrickEmojiModifiersViewSource =
-      DirectCast(Resources!FitzpatrickEmojiModifiersViewSource, CollectionViewSource)
+        DirectCast(Resources!FitzpatrickEmojiModifiersViewSource, CollectionViewSource)
     fitzpatrickEmojiModifiersViewSource.View.MoveCurrentTo(model.SelectedFitzpatrickEmojiModifier)
     AddHandler fitzpatrickEmojiModifiersViewSource.View.CurrentChanged,
-      AddressOf FitzpatrickEmojiModifiersView_CurrentChanged
+        AddressOf FitzpatrickEmojiModifiersView_CurrentChanged
+  End Sub
+
+  Private Sub UpdateTitleBar()
+    titleBarSubtituteBorder.Height = CoreApplication.GetCurrentView().TitleBar.Height
   End Sub
 
   Public Property ItemSelectedCommand As EventCommand

@@ -1,4 +1,5 @@
 ﻿Imports Windows.ApplicationModel.Core
+Imports Windows.Foundation.Metadata
 Imports Windows.Storage
 Imports Windows.UI
 
@@ -39,14 +40,6 @@ NotInheritable Class App
           If(fitzpatrickIndex Is Nothing, 0, CInt(fitzpatrickIndex))
         Model.SelectedFitzpatrickEmojiModifier =
           Model.FitzpatrickEmojiModifiers(fitzpatrickIndexInt)
-
-#If FLUENT Then
-        ' Extend into title bar.
-        CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = True
-        Dim titleBar As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
-        titleBar.ButtonBackgroundColor = Colors.Transparent
-        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent
-#End If
       End If
 
       ' Place the frame in the current Window

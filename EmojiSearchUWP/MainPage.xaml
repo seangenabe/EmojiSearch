@@ -23,6 +23,18 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
+    <Border Height="30"
+            x:Name="titleBarSubtituteBorder"
+            Grid.Row="0">
+      <TextBlock x:Name="titleBarSubstituteTextBox"
+                 Text="{StaticResource AppName}" 
+                 Style="{StaticResource CaptionTextBlockStyle}" 
+                 VerticalAlignment="Center" 
+                 Padding="8,0,0,0"
+                 />
+    </Border>
+    
+
     <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
              FontSize="32" 
              Height="50" 

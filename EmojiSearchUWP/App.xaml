@@ -5,6 +5,9 @@
     RequestedTheme="Dark">
 
   <Application.Resources>
+
+    <x:String x:Key="AppName">Emoji Search</x:String>
+
     <Style x:Key="ButtonStyle1" TargetType="Button">
       <Setter Property="Template">
         <Setter.Value>
@@ -66,6 +69,7 @@
         </Setter.Value>
       </Setter>
     </Style>
+    
     <Style x:Key="TextBoxStyle1" TargetType="TextBox">
       <Setter Property="Template">
         <Setter.Value>
@@ -214,5 +218,6 @@
         </Setter.Value>
       </Setter>
     </Style>
+  
   </Application.Resources>
 </Application>
