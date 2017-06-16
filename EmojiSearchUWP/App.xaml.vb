@@ -1,5 +1,6 @@
-﻿Option Strict Off
+﻿Imports Windows.ApplicationModel.Core
 Imports Windows.Storage
+Imports Windows.UI
 
 ''' <summary>
 ''' Provides application-specific behavior to supplement the default Application class.
@@ -15,7 +16,7 @@ NotInheritable Class App
   ''' search results, and so forth.
   ''' </summary>
   ''' <param name="e">Details about the launch request and process.</param>
-  Protected Overrides Sub OnLaunched(e As Windows.ApplicationModel.Activation.LaunchActivatedEventArgs)
+  Protected Overrides Sub OnLaunched(e As LaunchActivatedEventArgs)
     Dim rootFrame As Frame = TryCast(Window.Current.Content, Frame)
 
     ' Do not repeat app initialization when the Window already has content,
@@ -38,7 +39,16 @@ NotInheritable Class App
           If(fitzpatrickIndex Is Nothing, 0, CInt(fitzpatrickIndex))
         Model.SelectedFitzpatrickEmojiModifier =
           Model.FitzpatrickEmojiModifiers(fitzpatrickIndexInt)
+
+#If FLUENT Then
+        ' Extend into title bar.
+        CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = True
+        Dim titleBar As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
+        titleBar.ButtonBackgroundColor = Colors.Transparent
+        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent
+#End If
       End If
+
       ' Place the frame in the current Window
       Window.Current.Content = rootFrame
     End If

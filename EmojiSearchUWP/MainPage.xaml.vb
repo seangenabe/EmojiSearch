@@ -1,6 +1,9 @@
 ﻿Imports LiteDB
+Imports Windows.ApplicationModel.Core
 Imports Windows.ApplicationModel.DataTransfer
 Imports Windows.Storage
+Imports Windows.UI
+Imports Windows.UI.Xaml.Media
 
 Public NotInheritable Class MainPage
   Inherits Page
@@ -22,6 +25,24 @@ Public NotInheritable Class MainPage
   End Sub
 
   Private Async Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
+
+#If FLUENT Then
+    ' Add text block to act as title bar.
+    Dim height = CoreApplication.GetCurrentView().TitleBar.Height
+    Dim titleBarTextBlock As New TextBlock() With {.Height = height}
+    Grid.SetRow(titleBarTextBlock, 0)
+    layoutRoot.Children.Insert(0, titleBarTextBlock)
+
+    ' Set background to acrylic brush.
+    Dim brush As New AcrylicBrush()
+    brush.BackgroundSource = AcrylicBackgroundSource.HostBackdrop
+    brush.TintColor = Colors.Black
+    brush.FallbackColor = Colors.Black
+    brush.TintOpacity = 0.6
+
+    layoutRoot.Background = brush
+#End If
+
     Dim model = Me.Model
     Using stream = Await Package.Current.InstalledLocation.OpenStreamForReadAsync("Emoji.db")
       Using db As New LiteDatabase(stream)
