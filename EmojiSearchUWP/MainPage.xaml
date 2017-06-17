@@ -12,8 +12,9 @@
                           Source="{Binding DataContext.FitzpatrickEmojiModifiers, ElementName=root}"/>
   </Page.Resources>
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="layoutRoot">
     <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
@@ -22,22 +23,34 @@
       <ColumnDefinition Width="Auto"/>
     </Grid.ColumnDefinitions>
 
-    <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+    <Border Height="30"
+            x:Name="titleBarSubtituteBorder"
+            Grid.Row="0">
+      <TextBlock x:Name="titleBarSubstituteTextBox"
+                 Text="{StaticResource AppName}" 
+                 Style="{StaticResource CaptionTextBlockStyle}" 
+                 VerticalAlignment="Center" 
+                 Padding="8,0,0,0"
+                 />
+    </Border>
+
+
+    <TextBox x:Name="QueryTextBox"
+             Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
              FontSize="32" 
              Height="50" 
              VerticalAlignment="Center" 
              BorderThickness="0" 
-             PlaceholderText="Search for emoji" 
-             x:Name="QueryTextBox"
-             Grid.Row="0"
-             Grid.Column="0"/>
+             PlaceholderText="Search for emoji"
+             Grid.Row="1"
+             Grid.Column="0" Style="{StaticResource TextBoxStyle1}"/>
 
     <ScrollViewer IsDeferredScrollingEnabled="True" 
                   HorizontalContentAlignment="Center"
-                  Grid.Row="1"
+                  Grid.Row="2"
                   Grid.ColumnSpan="2">
-      <ItemsControl ItemsSource="{Binding EmojisView, Mode=OneWay}"
-                    x:Name="EmojiItemsControl"
+      <ItemsControl x:Name="EmojiItemsControl"
+                    ItemsSource="{Binding EmojisView, Mode=OneWay}"
                     TabNavigation="Once"
                     IsTabStop="False">
         <ItemsControl.ItemTemplate>
@@ -47,7 +60,9 @@
                     Height="58"
                     Command="{Binding ItemSelectedCommand, ElementName=root}" 
                     CommandParameter="{Binding}"
-                    ToolTipService.ToolTip="{Binding Name}">
+                    ToolTipService.ToolTip="{Binding Name}"
+                    BorderThickness="0"
+                    Style="{StaticResource ButtonStyle1}">
               <TextBlock Text="{Binding ModifiedValue}" 
                          FontFamily="Segoe UI Emoji" 
                          FontSize="30"/>
@@ -66,12 +81,13 @@
     <Button FontFamily="Segoe UI Emoji" 
             FontSize="32" 
             Content="{Binding Path=CurrentItem.DisplayValue, Source={StaticResource FitzpatrickEmojiModifiersViewSource}}"
-            Grid.Row="0"
-            Grid.Column="1">
+            Grid.Row="1"
+            Grid.Column="1"
+            Style="{StaticResource ButtonStyle1}">
       <Button.Flyout>
         <Flyout>
           <ListView ItemsSource="{Binding Source={StaticResource FitzpatrickEmojiModifiersViewSource}}"
-                        IsTabStop="False">
+                    IsTabStop="False">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
                 <ItemsWrapGrid MaximumRowsOrColumns="3"
@@ -80,14 +96,13 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="app:EmojiSearchModelUWP">
-                <Border Margin="5"
-                          Width="80"
-                          Height="58">
+                <Border Width="80"
+                        Height="58">
                   <TextBlock FontSize="32" 
-                                 FontFamily="Segoe UI Emoji"
-                                 Text="{Binding DisplayValue}" 
-                                 HorizontalAlignment="Center" 
-                                 VerticalAlignment="Center"/>
+                             FontFamily="Segoe UI Emoji"
+                             Text="{Binding DisplayValue}" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center"/>
                 </Border>
               </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -1,9 +1,0 @@
-{
-  "private": true,
-  "engines": {
-    "npm": ">=5"
-  },
-  "devDependencies": {
-    "emojilib": "^2.2.1"
-  }
-}

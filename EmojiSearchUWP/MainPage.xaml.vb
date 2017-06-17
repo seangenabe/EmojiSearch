@@ -1,6 +1,10 @@
 ﻿Imports LiteDB
+Imports Windows.ApplicationModel.Core
 Imports Windows.ApplicationModel.DataTransfer
+Imports Windows.Foundation.Metadata
 Imports Windows.Storage
+Imports Windows.UI
+Imports Windows.UI.Xaml.Media
 
 Public NotInheritable Class MainPage
   Inherits Page
@@ -22,6 +26,28 @@ Public NotInheritable Class MainPage
   End Sub
 
   Private Async Sub Page_Loaded(sender As Object, e As RoutedEventArgs)
+    If ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.AcrylicBrush") Then
+      ' Extend into title bar.
+      Dim coreTitleBar = CoreApplication.GetCurrentView().TitleBar
+      coreTitleBar.ExtendViewIntoTitleBar = True
+      AddHandler coreTitleBar.LayoutMetricsChanged, AddressOf UpdateTitleBar
+
+      ' Customize app title bar.
+      Dim titleBar As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
+      titleBar.ButtonBackgroundColor = Colors.Transparent
+      titleBar.ButtonInactiveBackgroundColor = Colors.Transparent
+      titleBar.ButtonForegroundColor = Resources!SystemBaseHighColor
+      titleBar.ButtonInactiveForegroundColor = Resources!SystemChromeDisabledLowColor
+      UpdateTitleBar()
+
+      ' Set background to acrylic brush.
+      Dim systemAcrylic As Brush = Resources!SystemControlAcrylicMediumHighWindowBrush
+      layoutRoot.Background = systemAcrylic
+    Else
+      ' Hide substitute title bar.
+      titleBarSubstituteTextBox.Visibility = Visibility.Collapsed
+    End If
+
     Dim model = Me.Model
     Using stream = Await Package.Current.InstalledLocation.OpenStreamForReadAsync("Emoji.db")
       Using db As New LiteDatabase(stream)
@@ -32,10 +58,14 @@ Public NotInheritable Class MainPage
     DataContext = model
 
     Dim fitzpatrickEmojiModifiersViewSource =
-      DirectCast(Resources!FitzpatrickEmojiModifiersViewSource, CollectionViewSource)
+        DirectCast(Resources!FitzpatrickEmojiModifiersViewSource, CollectionViewSource)
     fitzpatrickEmojiModifiersViewSource.View.MoveCurrentTo(model.SelectedFitzpatrickEmojiModifier)
     AddHandler fitzpatrickEmojiModifiersViewSource.View.CurrentChanged,
-      AddressOf FitzpatrickEmojiModifiersView_CurrentChanged
+        AddressOf FitzpatrickEmojiModifiersView_CurrentChanged
+  End Sub
+
+  Private Sub UpdateTitleBar()
+    titleBarSubtituteBorder.Height = CoreApplication.GetCurrentView().TitleBar.Height
   End Sub
 
   Public Property ItemSelectedCommand As EventCommand
