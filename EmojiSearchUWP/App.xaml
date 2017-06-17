@@ -9,6 +9,7 @@
     <x:String x:Key="AppName">Emoji Search</x:String>
 
     <Style x:Key="ButtonStyle1" TargetType="Button">
+      <Setter Property="Background" Value="{ThemeResource SystemAltHighColor}"/>
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">

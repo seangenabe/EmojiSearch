@@ -36,17 +36,13 @@ Public NotInheritable Class MainPage
       Dim titleBar As ApplicationViewTitleBar = ApplicationView.GetForCurrentView().TitleBar
       titleBar.ButtonBackgroundColor = Colors.Transparent
       titleBar.ButtonInactiveBackgroundColor = Colors.Transparent
-      titleBar.ButtonForegroundColor = Resources("SystemBaseHighColor")
-      titleBar.ButtonInactiveForegroundColor = Resources("SystemChromeDisabledLowColor")
+      titleBar.ButtonForegroundColor = Resources!SystemBaseHighColor
+      titleBar.ButtonInactiveForegroundColor = Resources!SystemChromeDisabledLowColor
       UpdateTitleBar()
 
       ' Set background to acrylic brush.
-      Dim brush As New AcrylicBrush()
-      brush.BackgroundSource = AcrylicBackgroundSource.HostBackdrop
-      brush.TintColor = Colors.Black
-      brush.FallbackColor = Colors.Black
-      brush.TintOpacity = 0.6
-      layoutRoot.Background = brush
+      Dim systemAcrylic As Brush = Resources!SystemControlAcrylicMediumHighWindowBrush
+      layoutRoot.Background = systemAcrylic
     Else
       ' Hide substitute title bar.
       titleBarSubstituteTextBox.Visibility = Visibility.Collapsed

@@ -33,15 +33,15 @@
                  Padding="8,0,0,0"
                  />
     </Border>
-    
 
-    <TextBox Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+
+    <TextBox x:Name="QueryTextBox"
+             Text="{Binding QueryDebounced, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
              FontSize="32" 
              Height="50" 
              VerticalAlignment="Center" 
              BorderThickness="0" 
-             PlaceholderText="Search for emoji" 
-             x:Name="QueryTextBox"
+             PlaceholderText="Search for emoji"
              Grid.Row="1"
              Grid.Column="0" Style="{StaticResource TextBoxStyle1}"/>
 
@@ -49,8 +49,8 @@
                   HorizontalContentAlignment="Center"
                   Grid.Row="2"
                   Grid.ColumnSpan="2">
-      <ItemsControl ItemsSource="{Binding EmojisView, Mode=OneWay}"
-                    x:Name="EmojiItemsControl"
+      <ItemsControl x:Name="EmojiItemsControl"
+                    ItemsSource="{Binding EmojisView, Mode=OneWay}"
                     TabNavigation="Once"
                     IsTabStop="False">
         <ItemsControl.ItemTemplate>
@@ -87,7 +87,7 @@
       <Button.Flyout>
         <Flyout>
           <ListView ItemsSource="{Binding Source={StaticResource FitzpatrickEmojiModifiersViewSource}}"
-                        IsTabStop="False">
+                    IsTabStop="False">
             <ItemsControl.ItemsPanel>
               <ItemsPanelTemplate>
                 <ItemsWrapGrid MaximumRowsOrColumns="3"
@@ -99,10 +99,10 @@
                 <Border Width="80"
                         Height="58">
                   <TextBlock FontSize="32" 
-                                 FontFamily="Segoe UI Emoji"
-                                 Text="{Binding DisplayValue}" 
-                                 HorizontalAlignment="Center" 
-                                 VerticalAlignment="Center"/>
+                             FontFamily="Segoe UI Emoji"
+                             Text="{Binding DisplayValue}" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center"/>
                 </Border>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
